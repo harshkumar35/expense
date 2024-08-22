@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Tracker By HK </title>
+    <title>Budget Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div class="container">
         <header>
             <h1>Monthly Budget Tracker</h1>
-            <p>Manage your finances effectively with real-time tracking and alerts.</p>
+            <p>Manage your finances effectively with real-time tracking.</p>
         </header>
         <main>
             <div class="budget-input">
@@ -34,7 +34,19 @@
                 <p><strong>Remaining Balance:</strong> $<span id="display-balance">0</span></p>
                 <div class="alert" id="alert-box">Alert: You are approaching your spending limit!</div>
             </div>
+
+            <button id="end-month-btn">End Month & Save Data</button>
             <button id="clear-data-btn">Clear All Data</button>
+
+            <div class="previous-months">
+                <h2>Previous Months' Data</h2>
+                <ul id="previous-months-list"></ul>
+            </div>
+
+            <div class="total-savings">
+                <h2>Total Savings</h2>
+                <p id="total-savings-amount">$0</p>
+            </div>
         </main>
     </div>
 

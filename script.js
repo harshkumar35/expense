@@ -12,12 +12,17 @@ const displayExpenses = document.getElementById('display-expenses');
 const displayBalance = document.getElementById('display-balance');
 const alertBox = document.getElementById('alert-box');
 const clearDataBtn = document.getElementById('clear-data-btn');
+const endMonthBtn = document.getElementById('end-month-btn');
+const previousMonthsList = document.getElementById('previous-months-list');
+const totalSavingsAmount = document.getElementById('total-savings-amount');
 
 // Load saved data from localStorage on page load
 window.onload = function () {
     loadBudgetData();
     loadExpensesData();
+    loadPreviousMonthsData();
     updateBalance();
+    updateTotalSavings();
 };
 
 setBudgetBtn.addEventListener('click', () => {
@@ -39,6 +44,13 @@ addExpenseBtn.addEventListener('click', () => {
     // Clear inputs
     expenseDescriptionInput.value = '';
     expenseAmountInput.value = '';
+});
+
+endMonthBtn.addEventListener('click', () => {
+    saveMonthData();
+    clearCurrentMonthData();
+    loadPreviousMonthsData();
+    updateTotalSavings();
 });
 
 clearDataBtn.addEventListener('click', () => {
@@ -94,16 +106,58 @@ function loadExpensesData() {
     }
 }
 
-// Clear all data from localStorage
-function clearAllData() {
-    localStorage.removeItem('budget');
-    localStorage.removeItem('totalExpenses');
+// Save the current month's data and reset
+function saveMonthData() {
+    const remainingBalance = budget - totalExpenses;
+    const monthKey = `month_${new Date().toISOString().slice(0, 7)}`;
+    const monthData = {
+        budget: budget,
+        expenses: totalExpenses,
+        savings: remainingBalance
+    };
+    localStorage.setItem(monthKey, JSON.stringify(monthData));
+}
+
+// Load previous months' data
+function loadPreviousMonthsData() {
+    previousMonthsList.innerHTML = '';
+    const keys = Object.keys(localStorage).filter(key => key.startsWith('month_'));
+    keys.forEach(key => {
+        const data = JSON.parse(localStorage.getItem(key));
+        const listItem = document.createElement('li');
+        listItem.textContent = `${key.replace('month_', '')}: Budget: $${data.budget}, Expenses: $${data.expenses}, Savings: $${data.savings}`;
+        previousMonthsList.appendChild(listItem);
+    });
+}
+
+// Update total savings across all months
+function updateTotalSavings() {
+    let totalSavings = 0;
+    const keys = Object.keys(localStorage).filter(key => key.startsWith('month_'));
+    keys.forEach(key => {
+        const data = JSON.parse(localStorage.getItem(key));
+        totalSavings += data.savings;
+    });
+    totalSavingsAmount.textContent = `$${totalSavings.toFixed(2)}`;
+}
+
+// Clear current month data and reset
+function clearCurrentMonthData() {
     budget = 0;
     totalExpenses = 0;
-    displayBudget.textContent = '0';
-    displayExpenses.textContent = '0';
-    displayBalance.textContent = '0';
-    hideAlert();
+    saveBudgetData();
+    saveExpensesData();
+    displayBudget.textContent = budget.toFixed(2);
+    displayExpenses.textContent = totalExpenses.toFixed(2);
+    updateBalance();
+}
+
+// Clear all data from localStorage
+function clearAllData() {
+    localStorage.clear();
+    clearCurrentMonthData();
+    loadPreviousMonthsData();
+    updateTotalSavings();
 }
 
 // Three.js Water Droplet Animation
