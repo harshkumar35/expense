@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Tracker By HK </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation" id="background-animation"></div>
+    <div class="container">
+        <header>
+            <h1>Monthly Budget Tracker</h1>
+            <p>Manage your finances effectively with real-time tracking and alerts.</p>
+        </header>
+        <main>
+            <div class="budget-input">
+                <label for="budget">Enter your monthly budget:</label>
+                <input type="number" id="budget" placeholder="e.g., 2000">
+                <button id="set-budget-btn">Set Budget</button>
+            </div>
+
+            <div class="expense-input">
+                <label for="expense">Add an expense:</label>
+                <input type="text" id="expense-description" placeholder="e.g., Groceries">
+                <input type="number" id="expense-amount" placeholder="e.g., 50">
+                <button id="add-expense-btn">Add Expense</button>
+            </div>
+
+            <div class="dashboard">
+                <h2>Dashboard</h2>
+                <p><strong>Monthly Budget:</strong> $<span id="display-budget">0</span></p>
+                <p><strong>Total Expenses:</strong> $<span id="display-expenses">0</span></p>
+                <p><strong>Remaining Balance:</strong> $<span id="display-balance">0</span></p>
+                <div class="alert" id="alert-box">Alert: You are approaching your spending limit!</div>
+            </div>
+            <button id="clear-data-btn">Clear All Data</button>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
